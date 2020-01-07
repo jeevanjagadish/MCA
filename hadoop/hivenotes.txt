@@ -1,0 +1,135 @@
+commands in hive:
+
+Show database;
+
+o/p: shows the database existing within hive
+
+Create database database_name;
+: create a database and store it with the given name.
+
+use database_name;
+:use the database
+
+create table table_name(field_name datatype,...,..);
+:creates a table. 
+
+create table tab_name(id bigint, name string, address string);
+:creates the table
+
+describe tab_name;
+shows the table with content
+
+insert into tablle tab_name valus(1,"jeevan","bangalore");
+:inserts the data
+
+insert into tablle tab_name valus(1,"jeevan","bangalore"),(2,"df","adfcsd"),(3,"sdc","sdc"),(4,"sdv","Sv");
+inserts multiple records at once
+
+select * from table_name;
+:to see all th values
+
+select col_name from tab_name where col_name="condition";
+:shows  the column value based on condition.
+
+
+select DISTINCT col_name from tab_name;
+
+
+select col_name,col_name from tab_name order by col_name;
+
+create table tab_name;
+
+create table tab_name(id bigint, name string, address string,quantity double,amount double);
+
+:creates the table
+
+
+equi join
+select tab_name.f1_name,f2_name,f3_name from tab_name join tab2_name;
+
+**hive supports only structured data
+it supports only equi joins**
+
+notes on 18-11-19 **external tables***
+
+#create csv file consists of id,name, and cost of the product
+save the product.csv in hadoop dir
+
+create directory in hadoop
+command: hadoop fs -mkdir /data
+
+copy the file to the hdfs directory 
+command:?
+
+hadoop fs -ls /data
+
+now go to hive commandprompt:
+commands:
+use mcadatabase
+show tables;
+
+insert the external file called product.csv and insert into hive
+
+#create external table if not exists products{ id string,title string,cost float}
+#comment"table to store information sold in stores"
+#location'/data/';(compulsory)
+#show tables;
+#select * from products;
+**it shows the external data of products.csv***
+
+#hive is schema-on-read
+
+#hadoop command prompt
+command:hadoop fs -ls /user/hive/warehouse/mca.db
+
+go to Hive command prompt
+command: drop table products;
+
+go to hadoop and check whether the products table exists or not
+result: products.csv is still present in the hadoop
+
+Hive command prompt:
+to reload the file which is dropped
+command: 
+#create external table if not exists products{ id string,title string,cost float}
+#comment"table to store information sold in stores"
+#location'/data/';(compulsory)
+#select * from products;
+
+to tell which is managed table or external table:
+#describe formatted custombers;
+#descibe formatted tables;
+
+
+#it is used to copy the schema from products to fresh_products
+commands:
+*create tablle if not exists fresh_products like products;
+*describe formatted fresh_products;
+* select * from fresh_products;
+
+
+go to hadoop command prompt:
+hadoop fs -ls /user/hive/warehouse/mca.db
+
+**alter the table name**
+commands:
+#alter table fresh_products rename to freshproducts;
+#show tables;
+
+**add the column to the table***
+commands:
+#alter table freshproducts  add columns (enquiry_date date
+comments "enquiry date of fresh products");
+#describe freshproducts;
+
+**to move the column position use "change with after"**
+commands:
+#alter table freshproduct change column id id string after title;
+#describe freshproduct;
+**another example using products:***
+#alter table products  change column id id string after title;
+#describe products;
+
+
+
+

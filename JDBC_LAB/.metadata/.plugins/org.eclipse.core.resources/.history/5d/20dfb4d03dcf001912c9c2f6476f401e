@@ -1,0 +1,29 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+package MCA;
+
+public class Demo_1 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		 Connection conn = null;
+		 try {
+	            // connect way #1
+	            String url1 = "jdbc:mysql://localhost:3306";
+	            String user = "root";
+	            String password = "jeev@125971";
+	 
+	            conn = DriverManager.getConnection(url1, user, password);
+	            if (conn != null)
+	            {
+	                System.out.println("Connected to the database test1");
+	            }
+	}catch (SQLException ex) {
+        System.out.println("An error occurred. Maybe user/password is invalid");
+        ex.printStackTrace();
+    }
+		 
+	}
+}

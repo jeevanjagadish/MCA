@@ -1,0 +1,48 @@
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Properties;
+
+//import com.mysql.jdbc.ResultSetMetaData;
+public class Demo_2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		 Connection conn = null;
+		 Statement stmt = null;
+		 try {
+	            // connect way #1
+	            String url1 = "jdbc:mysql://localhost:3306/my_database_mca";
+	            String user = "root";
+	            String password = "jeev@125971";
+	            conn = DriverManager.getConnection(url1, user, password);
+	            DatabaseMetaData md = (DatabaseMetaData) conn.getMetaData();
+	            ResultSet rs = md.getTables(null, null, "%", null);
+	            while (rs.next()) {
+					System.out.println(rs.getString(3));
+				}
+	            stmt = conn.createStatement();
+	            String sql = "select * from MCA_t1";
+				rs = stmt.executeQuery(sql);
+				ResultSetMetaData metaData = (ResultSetMetaData) rs.getMetaData();
+	            
+				int rowCount = metaData.getColumnCount();
+				System.out.println("Table Name : " + metaData.getTableName(1));
+				System.out.println("Column Names");
+				
+				for (int i = 0; i < rowCount; i++) {
+					System.out.print(metaData.getColumnName(i + 1) + "  \t");
+					System.out.print("Successful");
+		 }
+				}
+		 catch (SQLException ex) {
+		        System.out.println("An error occurred");
+		        ex.printStackTrace();
+		    }
+	}
+
+}

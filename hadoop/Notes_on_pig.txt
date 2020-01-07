@@ -1,0 +1,127 @@
+emp = load 'emp.txt' using PigStorage(',')
+as
+(
+Emp_No: double,
+EName: chararray,
+Job: chararray,
+Mgr_id: double,
+Hiredate: chararray,
+Sal: double,
+Commision: double,
+Dept_no: double
+);
+
+dpt = load 'dept.txt' using PigStorage(',')
+as
+(
+Dept_no: double,
+Departmentname: chararray,
+Area: chararray
+);
+
+
+ sales=load'E:\assignment\5th_sem_mca\hadoop\sales.txt' using pig storage(',')as (Name.chararray,complex.chararray,price.double);
+sales = load 'sales.txt' using PigStorage(',')
+as
+(
+name: chararray,
+complex: chararray,
+price: double
+);
+
+Big data notes on 17/10/2019
+commands:
+#groc= load'dataset.csv' using pig storage(',') as (ord_Id.chararray,loc.chararray,product.chararray,amt.double);
+
+convert to tuple
+# grocries_order = foreach groc generate $0,$1,TOTUPLT($2,$4);
+
+EX:
+stud_info = foreach stud generate TOTUPLE($0,$1,$2),$3;
+
+*******BAG*********
+it is a unordered collection of tuples
+bag=(tuple)
+tuple is the collection of scalar tuple
+tuple ()
+bag {}
+outer bag and inner bag
+eg:
+use stud_subj.txt
+a111  dds 12 maths chemistry physics
+a112  aba 12 maths physics
+a113  lwd 12 maths chemistry
+
+save it as the text file and load it in pig
+command: dump stud_subj;
+         stud_subj.bag = foreach stud_subj generate $0,$1,$2, TOBAG ($3,$4,$5);
+	describe stud_subj.bag;
+ 
+        
+*****MAP*******
+it is the collection of key value pairs
+key has to be chararay keys
+
+eg: Use the data stud_marks.txt
+101 bdsd 12 [maths#98,physics#74, chemistry#70]
+102 adaf 12 [maths#98,physics#74, chemistry#70]
+103 asdf 12 [maths#98,physics#74, chemistry#70]
+
+load the data into pig
+
+stud_marks = load 'stud_marks.txt'
+as
+(stud_Id: chararray,
+name: chararray,
+grade:int,
+marks:map[int]);
+
+#describe stud_marks;
+#dump stud_marks;
+
+#stud_math = foreach stud_marks generate $1,$3#'maths';
+#dump stud_math;
+
+#stud_infor_map = foreach stud_marks generate $0, TOMAP($1,$2);
+#dump stud_infor_map;
+#describe stud_infor_map;
+
+eg:
+#stud_infor_map = foreach stud_marks generate $0, TOMAP($1,$2),$3;
+#dump stud_infor_map;
+#describe stud_infor_map;
+
+*******scehma  speccification**********
+******casting and conversion********* 
+bag  (cannot be converted to others)
+tuple (cannot be converted to others)
+map (cannot be converted to others)
+
+
+
+ ans = foreach emp generate Emp_No,EName,Job,Mgr_id,Hiredate,(int)GetYear(CurrentTime())-(int)SUBSTRING(Hiredate,0,4)as expn,Sal,Commision,Dept_no;
+grunt> fil = filter ans by Job == 'Manager';
+
+
+
+
+
+
+*********28/11/2019***************
+
+hadoop fs -ls /user/hive/warehouse/mca.db/
+
+hadoop fs -ls /user/hive/warehouse/mca.db/test_1
+
+*******3 method of inserting the data*****
+truncate table tab_name;
+
+#partitioning and bucketing of data#
+to split the data
+partition
+ #data may be naturally split into logical units
+
+
+
+
+

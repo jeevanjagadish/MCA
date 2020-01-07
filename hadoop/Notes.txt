@@ -1,0 +1,37 @@
+order_total =  foreach orders generate username, product, quantity * amount as total;
+
+
+
+ orders = load 'orders.json' using JsonLoader('
+>> order_id:chararray,
+>> username:chararray,
+>> product:chararray,
+>> quantity:chararray,
+>> amount:double,
+>> orderdate:chararray
+>> ');
+grunt> Describe orders;
+orders: {order_id: chararray,username: chararray,product: chararray,quantity: chararray,amount: double,orderdate: chararray}
+grunt> dump orders;
+(o1,John,Samsung Phone,1,23445.89,3-5-2019)
+(o2,Jack,Notebook,2,20.5,1-5-2019)
+(o3,Jill,JBL Speakers,3,50000.23,1-1-2019)
+(o4,Johny,Sony Bravio,1,100890.0,1-31-2019)
+(o5,,,,,)
+(o6,,,,,)
+(o7,Ben,IPhone,1,70900.0,3-3-2019)
+(o8,Amanda,Nike Shoes,2,3500.5,5-18-2019)
+(o9,Caroline,Bose Speakers,1,50000.23,7-21-2019)
+(010,Ester,Levis Jeans,5,2500.0,3-31-2019)
+(o11,,,,,)
+(o12,,,,,)
+grunt> order_total = foreach orders generate username,product,quantity * amount as total;
+19/10/24 09:25:48 ERROR grunt.Grunt: ERROR 1039: <line 31, column 64> (Name: Multiply Type: null Uid: null)incompatible types in Multiply Operator left hand side:chararray right hand side:double
+Details at logfile: C:\BigData\hadoop-2.9.1\logs\pig_1571886436617.log
+grunt> order_total =  foreach orders generate username,product,quantity * amount as total;
+19/10/24 09:27:06 ERROR grunt.Grunt: ERROR 1039: <line 31, column 65> (Name: Multiply Type: null Uid: null)incompatible types in Multiply Operator left hand side:chararray right hand side:double
+Details at logfile: C:\BigData\hadoop-2.9.1\logs\pig_1571886436617.log
+grunt> order_total =  foreach orders generate username, product, quantity * amount as total;
+
+
+ order_by_month = foreach order_with_date generate username, product, quantity, GetMonth(date) as mon;
